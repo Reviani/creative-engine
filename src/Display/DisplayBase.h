@@ -44,9 +44,14 @@ public:
     displayBitmap->SetColor(aIndex, aRed, aGreen, aBlue);
     renderBitmap->SetColor(aIndex, aRed, aGreen, aBlue);
   }
-  void SetColor(TUint8 aIndex, TRGB& aColor) {
+  void SetColor(TUint8 aIndex, const TRGB &aColor) {
     displayBitmap->SetColor(aIndex, aColor.r, aColor.g, aColor.b);
     renderBitmap->SetColor(aIndex, aColor.r, aColor.g, aColor.b);
+  }
+
+  void UseColor(TUint8 aIndex) {
+    displayBitmap->UseColor(aIndex);
+    renderBitmap->UseColor(aIndex);
   }
 
 

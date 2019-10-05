@@ -3,7 +3,6 @@
 
 #include "BBase.h"
 
-
 const TUint32 DRAW_NORMAL = 0;
 const TUint32 DRAW_FLIPPED = (1 << 0);
 const TUint32 DRAW_FLOPPED = (1 << 1);
@@ -12,7 +11,7 @@ const TUint32 DRAW_ROTATE_LEFT = (1 << 3);
 
 class BResourceManager;
 
-class Display;
+class gDisplay;
 
 class BViewPort;
 
@@ -64,7 +63,7 @@ class BFont;
  */
 class BBitmap : public BBase {
   friend class BResourceManager;
-  friend class Display;
+  friend class gDisplay;
 
 public:
   BBitmap(TUint aWidth, TUint aHeight, TUint aDepth,
@@ -118,10 +117,10 @@ public:
    *
    * Return index in palette of found color, or -1 if not found.
    */
-  TInt FindColor(TRGB &aColor);
+  TInt FindColor(const TRGB &aColor);
 
   TInt FindColor(TInt aRed, TInt aGreen, TInt aBlue) {
-    TRGB color(aRed, aGreen, aBlue);
+    const TRGB color(aRed, aGreen, aBlue);
     return FindColor(color);
   }
 
@@ -151,7 +150,7 @@ public:
     mPalette[index].Set(r, g, b);
   }
 
-  void SetColor(TUint8 index, TRGB aColor) {
+  void SetColor(TUint8 index, const TRGB &aColor) {
 #ifndef PRODUCTION
 #if (defined(__XTENSA__) && defined(DEBUGME)) || !defined(__XTENSA__)
     printf("SetColor %d, %02x%02x%02x\n", index, aColor.r, aColor.g, aColor.b);
@@ -188,6 +187,7 @@ public:
    * Erase bitmap to specified color (palette index)
    */
   void Clear(TUint8 aColor = 0);
+  void Clear(const TRGB &aColor);
 
   /**
    * Copy the pixels from one bitmap to another.
@@ -281,6 +281,21 @@ public:
   TBool DrawStringShadow(BViewPort *aViewPort, const char *aStr,
       const BFont *aFont, TInt aDstX, TInt aDstY, TInt aFgColor,
       TInt aShadowColor, TInt aBgColor = -1, TInt aLetterSpacing = 0);
+
+  TBool DrawString(BViewPort *aViewPort, const char *aStr, const BFont *aFont,
+      TInt aDstX, TInt aDstY, const TRGB &aFgColor, const TRGB &aBgColor,
+      TInt aLetterSpacing = 0);
+
+  TBool DrawString(BViewPort *aViewPort, const char *aStr, const BFont *aFont,
+      TInt aDstX, TInt aDstY, const TRGB &aFgColor, TInt aLetterSpacing = 0);
+
+  TBool DrawStringShadow(BViewPort *aViewPort, const char *aStr,
+      const BFont *aFont, TInt aDstX, TInt aDstY, const TRGB &aFgColor,
+      const TRGB &aShadowColor, const TRGB &aBgColor, TInt aLetterSpacing = 0);
+
+  TBool DrawStringShadow(BViewPort *aViewPort, const char *aStr,
+      const BFont *aFont, TInt aDstX, TInt aDstY, const TRGB &aFgColor,
+      const TRGB &aShadowColor, TInt aLetterSpacing = 0);
 
   TUint GetPitch() { return mPitch; }
 

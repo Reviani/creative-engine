@@ -76,7 +76,7 @@ public:
     return ((b & 0b11111000) << 8) | ((r & 0b11111100) << 3) | (g >> 3);
   }
 
-  TBool operator==(TRGB &aOther) {
+  TBool operator==(const TRGB &aOther) {
     return (r == aOther.r && g == aOther.g && b == aOther.b);
   }
 

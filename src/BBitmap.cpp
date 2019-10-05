@@ -171,7 +171,7 @@ TInt BBitmap::NextUnusedColor() {
   return -1;
 }
 
-TInt BBitmap::FindColor(TRGB &aColor) {
+TInt BBitmap::FindColor(const TRGB &aColor) {
   for (TInt ndx = 0; ndx < 256; ndx++) {
     if (mColorsUsed[ndx] && mPalette[ndx] == aColor) {
       return ndx;
@@ -614,6 +614,33 @@ TBool BBitmap::DrawStringShadow(BViewPort *aViewPort, const char *aStr,
     : EFalse;
 }
 
+TBool BBitmap::DrawStringShadow(BViewPort *aViewPort, const char *aStr,
+    const BFont *aFont, TInt aDstX, TInt aDstY, const TRGB &aFgColor,
+    const TRGB &aShadowColor, const TRGB &aBgColor, TInt aLetterSpacing) {
+  BBitmap *bm = gDisplay.renderBitmap;
+  return DrawStringShadow(aViewPort, aStr, aFont, aDstX, aDstY, bm->FindColor(aFgColor), bm->FindColor(aShadowColor), bm->FindColor(aBgColor), aLetterSpacing);
+}
+
+TBool BBitmap::DrawStringShadow(BViewPort *aViewPort, const char *aStr,
+    const BFont *aFont, TInt aDstX, TInt aDstY, const TRGB &aFgColor,
+    const TRGB &aShadowColor, TInt aLetterSpacing) {
+  BBitmap *bm = gDisplay.renderBitmap;
+  return DrawStringShadow(aViewPort, aStr, aFont, aDstX, aDstY, bm->FindColor(aFgColor), bm->FindColor(aShadowColor), -1, aLetterSpacing);
+}
+
+TBool BBitmap::DrawString(BViewPort *aViewPort, const char *aStr, const BFont *aFont,
+    TInt aDstX, TInt aDstY, const TRGB &aFgColor, const TRGB &aBgColor,
+    TInt aLetterSpacing) {
+  BBitmap *bm = gDisplay.renderBitmap;
+  return DrawString(aViewPort, aStr, aFont, aDstX, aDstY, bm->FindColor(aFgColor), bm->FindColor(aBgColor), aLetterSpacing);
+}
+
+TBool BBitmap::DrawString(BViewPort *aViewPort, const char *aStr, const BFont *aFont,
+    TInt aDstX, TInt aDstY, const TRGB &aFgColor, TInt aLetterSpacing) {
+  BBitmap *bm = gDisplay.renderBitmap;
+  return DrawString(aViewPort, aStr, aFont, aDstX, aDstY, bm->FindColor(aFgColor), -1, aLetterSpacing);
+}
+
 TBool BBitmap::DrawString(BViewPort *aViewPort, const char *aStr,
                           const BFont *aFont, TInt aX, TInt aY, TInt aFgColor, TInt aBgColor,
                           TInt aLetterSpacing) {
@@ -691,6 +718,14 @@ TBool BBitmap::DrawString(BViewPort *aViewPort, const char *aStr,
 
 void BBitmap::Clear(TUint8 aColor) {
   memset(mPixels, aColor, mPitch * mHeight);
+}
+void BBitmap::Clear(const TRGB &aColor) {
+  BBitmap *bm = gDisplay.renderBitmap;
+  const TInt len = mPitch * mHeight;
+  const TInt color = bm->FindColor(aColor);
+  for (TInt i = 0; i < len; i++) {
+    WritePixel(i, 0, color);
+  }
 }
 
 void BBitmap::DrawFastHLine(
