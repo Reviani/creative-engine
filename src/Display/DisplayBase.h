@@ -54,6 +54,17 @@ public:
     renderBitmap->UseColor(aIndex);
   }
 
+  TInt FindColor(const TRGB &aColor) {
+    return renderBitmap->FindColor(aColor);
+  }
+
+  TInt FindUsedColor(const TRGB &aColor) {
+    return renderBitmap->FindColor(aColor);
+  }
+
+  TRGB &GetColor(TUint8 aIndex) {
+    return renderBitmap->GetColor(aIndex);
+  }
 
   virtual TUint16 color565(TUint8 red, TUint8 green, TUint8 blue) = 0;
 

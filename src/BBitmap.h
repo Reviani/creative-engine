@@ -117,11 +117,14 @@ public:
    *
    * Return index in palette of found color, or -1 if not found.
    */
-  TInt FindColor(const TRGB &aColor);
+  TInt FindUsedColor(const TRGB &aColor);
+  TInt FindUsedColor(TInt aRed, TInt aGreen, TInt aBlue) {
+    return FindUsedColor(TRGB(aRed, aGreen, aBlue));
+  }
 
+  TInt FindColor(const TRGB &aColor);
   TInt FindColor(TInt aRed, TInt aGreen, TInt aBlue) {
-    const TRGB color(aRed, aGreen, aBlue);
-    return FindColor(color);
+    return FindColor(TRGB(aRed, aGreen, aBlue));
   }
 
   /**

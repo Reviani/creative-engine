@@ -10,9 +10,9 @@
 
 class BButtonWidget : public BWidget {
 public:
-    BButtonWidget(char *aText, TInt aForeground, TInt aBackground = -1);
+    BButtonWidget(char *aText, TInt aForeground = -1, TInt aBackground = -1);
 
-    BButtonWidget(const char *aText, TInt aForeground, TInt aBackground = -1);
+    BButtonWidget(const char *aText, TInt aForeground = -1, TInt aBackground = -1);
 
     ~BButtonWidget();
 
