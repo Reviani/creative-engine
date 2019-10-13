@@ -199,38 +199,41 @@ public:
    */
   void CopyPixels(BBitmap *aOther);
 
-  void DrawFastHLine(
-      BViewPort *aViewPort, TInt aX, TInt aY, TUint aW, TUint8 aColor);
+  void DrawFastHLine(BViewPort *aViewPort, TInt aX, TInt aY, TUint aW, TUint8 aColor);
+  void DrawFastHLine(BViewPort *aViewPort, TInt aX, TInt aY, TUint aW, const TRGB &aColor);
 
-  void DrawFastVLine(
-      BViewPort *aViewPort, TInt aX, TInt aY, TUint aW, TUint8 aColor);
+  void DrawFastVLine(BViewPort *aViewPort, TInt aX, TInt aY, TUint aH, TUint8 aColor);
+  void DrawFastVLine(BViewPort *aViewPort, TInt aX, TInt aY, TUint aH, const TRGB &aColor);
 
-  void DrawLine(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2,
-      TUint8 aColor);
+  void DrawLine(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, const TRGB &aColor);
+  void DrawLine(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, TUint8 aColor);
 
+  void DrawLine(BViewPort *aViewPort, TRect &aRect, const TRGB &aColor);
   void DrawLine(BViewPort *aViewPort, TRect &aRect, TUint8 aColor) {
     DrawLine(aViewPort, aRect.x1, aRect.y1, aRect.x2, aRect.y2, aColor);
   }
 
-  void DrawRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2,
-      TUint8 aColor);
+  void DrawRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, TUint8 aColor);
+  void DrawRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, const TRGB &aColor);
 
+  void DrawRect(BViewPort *aViewPort, TRect &aRect, const TRGB &aColor);
   void DrawRect(BViewPort *aViewPort, TRect &aRect, TUint8 aColor) {
     DrawRect(aViewPort, aRect.x1, aRect.y1, aRect.x2, aRect.y2, aColor);
   }
 
-  void FillRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2,
-      TUint8 aColor);
+  void FillRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, TUint8 aColor);
+  void FillRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, const TRGB &aColor);
 
+  void FillRect(BViewPort *aViewPort, TRect &aRect, const TRGB &aColor);
   void FillRect(BViewPort *aViewPort, TRect &aRect, TUint8 aColor) {
     FillRect(aViewPort, aRect.x1, aRect.y1, aRect.x2, aRect.y2, aColor);
   }
 
-  void DrawCircle(
-      BViewPort *aViewPort, TInt aX, TInt aY, TUint r, TUint8 aColor);
+  void DrawCircle(BViewPort *aViewPort, TInt aX, TInt aY, TUint r, const TRGB &aColor);
+  void DrawCircle(BViewPort *aViewPort, TInt aX, TInt aY, TUint r, TUint8 aColor);
 
-  void FillCircle(
-      BViewPort *aViewPort, TInt aX, TInt aY, TUint r, TUint8 aColor);
+  void FillCircle(BViewPort *aViewPort, TInt aX, TInt aY, TUint r, const TRGB &aColor);
+  void FillCircle(BViewPort *aViewPort, TInt aX, TInt aY, TUint r, TUint8 aColor);
 
 public:
   /**

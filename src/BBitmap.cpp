@@ -732,6 +732,10 @@ void BBitmap::Clear(const TRGB &aColor) {
   }
 }
 
+void BBitmap::DrawFastHLine(BViewPort *aViewPort, TInt aX, TInt aY, TUint aW, const TRGB &aColor) {
+  DrawFastHLine(aViewPort, aX, aY, aW, gDisplay.FindColor(aColor));
+}
+
 void BBitmap::DrawFastHLine(
   BViewPort *aViewPort, TInt aX, TInt aY, TUint aW, TUint8 aColor) {
   // Initial viewport offset
@@ -794,6 +798,10 @@ void BBitmap::DrawFastHLine(
     *pixels++ = aColor;
     aW--;
   }
+}
+
+void BBitmap::DrawFastVLine(BViewPort *aViewPort, TInt aX, TInt aY, TUint aH, const TRGB &aColor) {
+  DrawFastVLine(aViewPort, aX, aY, aH, gDisplay.FindColor(aColor));
 }
 
 void BBitmap::DrawFastVLine(
@@ -864,6 +872,14 @@ void BBitmap::DrawFastVLine(
     pixels += pitch;
     aH--;
   }
+}
+
+void BBitmap::DrawLine(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, const TRGB &aColor) {
+  DrawLine(aViewPort, aX1, aY1, aX2, aY2, gDisplay.FindColor(aColor));
+}
+
+void BBitmap::DrawLine(BViewPort *aViewPort, TRect &aRect, const TRGB &aColor) {
+  DrawLine(aViewPort, aRect.x1, aRect.y1, aRect.x2, aRect.y2, gDisplay.FindColor(aColor));
 }
 
 void BBitmap::DrawLine(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2,
@@ -1171,6 +1187,14 @@ void BBitmap::DrawLine(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2,
   }
 }
 
+void BBitmap::DrawRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, const TRGB &aColor) {
+  DrawRect(aViewPort, aX1, aY1, aX2, aY2, gDisplay.FindColor(aColor));
+}
+
+void BBitmap::DrawRect(BViewPort *aViewPort, TRect &aRect, const TRGB &aColor) {
+  DrawRect(aViewPort, aRect.x1, aRect.y1, aRect.x2, aRect.y2, gDisplay.FindColor(aColor));
+}
+
 void BBitmap::DrawRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2,
                        TInt aY2, TUint8 aColor) {
   TInt x2, y2, w;
@@ -1315,6 +1339,14 @@ void BBitmap::DrawRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2,
   }
 }
 
+void BBitmap::FillRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2, TInt aY2, const TRGB &aColor) {
+  FillRect(aViewPort, aX1, aY1, aX2, aY2, gDisplay.FindColor(aColor));
+}
+
+void BBitmap::FillRect(BViewPort *aViewPort, TRect &aRect, const TRGB &aColor) {
+  FillRect(aViewPort, aRect.x1, aRect.y1, aRect.x2, aRect.y2, gDisplay.FindColor(aColor));
+}
+
 void BBitmap::FillRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2,
                        TInt aY2, TUint8 aColor) {
   TInt viewPortOffsetX = 0;
@@ -1393,6 +1425,10 @@ void BBitmap::FillRect(BViewPort *aViewPort, TInt aX1, TInt aY1, TInt aX2,
       pixels += pitch;
     }
   }
+}
+
+void BBitmap::DrawCircle(BViewPort *aViewPort, TInt aX, TInt aY, TUint r, const TRGB &aColor) {
+  DrawCircle(aViewPort, aX, aY, r, gDisplay.FindColor(aColor));
 }
 
 void BBitmap::DrawCircle(
@@ -1571,6 +1607,10 @@ void BBitmap::DrawCircle(
       }
     }
   }
+}
+
+void BBitmap::FillCircle(BViewPort *aViewPort, TInt aX, TInt aY, TUint r, const TRGB &aColor) {
+  FillCircle(aViewPort, aX, aY, r, gDisplay.FindColor(aColor));
 }
 
 void BBitmap::FillCircle(
