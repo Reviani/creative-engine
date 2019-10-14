@@ -11,7 +11,7 @@ const TUint32 DRAW_ROTATE_LEFT = (1 << 3);
 
 class BResourceManager;
 
-class gDisplay;
+class Display;
 
 class BViewPort;
 
@@ -63,7 +63,7 @@ class BFont;
  */
 class BBitmap : public BBase {
   friend class BResourceManager;
-  friend class gDisplay;
+  friend class Display;
 
 public:
   BBitmap(TUint aWidth, TUint aHeight, TUint aDepth,
