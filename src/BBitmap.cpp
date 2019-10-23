@@ -28,7 +28,7 @@ BBitmap::BBitmap(
   mWidth            = aWidth;
   mHeight           = aHeight;
   mDepth            = aDepth;
-  mPitch            = mWidth;
+  mPitch            = 640;
   mColors           = 256;
   mPalette          = new TRGB[mColors];
   mPixels = (TUint32 *) AllocMem((mWidth * mHeight) * sizeof(TUint32), aMemoryType);
@@ -42,9 +42,21 @@ BBitmap::BBitmap(
     mColorsUsed[i] = ENull;
   }
 
-  ReadPixelByDepth = gDisplay.renderBitmap && gDisplay.renderBitmap->Depth() != mDepth
-    ? &BBitmap::ReadPixelColor
-    : &BBitmap::ReadPixel;
+  if (gDisplay.renderBitmap) {
+    switch (gDisplay.renderBitmap->Depth()) {
+      case 32:
+        ReadPixelByDepth = &BBitmap::ReadPixelColor32;
+        break;
+      case 16:
+        ReadPixelByDepth = &BBitmap::ReadPixelColor16;
+        break;
+      case 8:
+        ReadPixelByDepth = &BBitmap::ReadPixel;
+        break;
+      default:
+        Panic("%i bit depth is not supported\n");
+    }
+  }
 }
 
 /**
@@ -151,9 +163,21 @@ BBitmap::BBitmap(TAny *aROM, TUint16 aMemoryType) {
   }
 #endif
 
-  ReadPixelByDepth = gDisplay.renderBitmap && gDisplay.renderBitmap->Depth() != mDepth
-    ? &BBitmap::ReadPixelColor
-    : &BBitmap::ReadPixel;
+  if (gDisplay.renderBitmap) {
+    switch (gDisplay.renderBitmap->Depth()) {
+      case 32:
+        ReadPixelByDepth = &BBitmap::ReadPixelColor32;
+        break;
+      case 16:
+        ReadPixelByDepth = &BBitmap::ReadPixelColor16;
+        break;
+      case 8:
+        ReadPixelByDepth = &BBitmap::ReadPixel;
+        break;
+      default:
+        Panic("%i bit depth is not supported\n");
+    }
+  }
 }
 
 BBitmap::~BBitmap() {
@@ -459,19 +483,37 @@ void BBitmap::CopyPixels(BBitmap *aOther) {
 
   if (mDepth == 32) {
     TUint32 *pixels = &mPixels[0];
-
     for (TInt y = 0; y < mHeight; y++) {
       for (TInt x = 0; x < mWidth; x++, pixels++) {
         *pixels = aOther->ReadColor(x, y).rgb888();
+      }
+    }
+    return;
+  }
+
+  if (mDepth == 16) {
+    TUint32 *pixels = &mPixels[0];
+    for (TInt y = 0; y < mHeight; y++) {
+      for (TInt x = 0; x < mWidth; x++, pixels++) {
+        *pixels = aOther->ReadColor(x, y).rgb565();
       }
     }
   }
 }
 
 TBool BBitmap::DrawBitmapTransparent(BViewPort *aViewPort, BBitmap *aSrcBitmap, TRect aSrcRect, TInt aX, TInt aY, TUint32 aFlags) {
-  const TInt t = gDisplay.renderBitmap->Depth() != aSrcBitmap->mDepth
-    ? aSrcBitmap->mPalette[aSrcBitmap->mTransparentColor].rgb888()
-    : aSrcBitmap->mTransparentColor;
+  TInt t;
+  switch (gDisplay.renderBitmap->Depth()) {
+    case 32:
+      t = aSrcBitmap->mPalette[aSrcBitmap->mTransparentColor].rgb888();
+      break;
+    case 16:
+      t = aSrcBitmap->mPalette[aSrcBitmap->mTransparentColor].rgb565();
+      break;
+    case 8:
+    default:
+      t = aSrcBitmap->mTransparentColor;
+  }
 
   TUint32 *pixels;
   TRect clipRect, spriteRect;

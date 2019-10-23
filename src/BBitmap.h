@@ -162,7 +162,8 @@ public:
     return mPalette[pixel];
   }
 
-  TUint32 ReadPixelColor(TInt aX, TInt aY) { return ReadColor(aX, aY).rgb888(); }
+  TUint32 ReadPixelColor32(TInt aX, TInt aY) { return ReadColor(aX, aY).rgb888(); }
+  TUint32 ReadPixelColor16(TInt aX, TInt aY) { return ReadColor(aX, aY).rgb565(); }
 
   TUint32 ReadPixel(TInt aX, TInt aY) { return mPixels[aY * mPitch + aX]; }
 

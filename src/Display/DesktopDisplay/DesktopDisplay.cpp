@@ -99,7 +99,7 @@ void DesktopDisplay::Update() {
     auto *screenBits = (TUint32 *) screenBuf;
 
     if (displayBitmap->Depth() == 32) {
-      TUint32 *ptr =  displayBitmap->mPixels;
+      TUint32 *ptr = displayBitmap->mPixels;
       memcpy(screenBits, ptr, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(TUint32));
     } else {
       TRGB *palette = displayBitmap->GetPalette();

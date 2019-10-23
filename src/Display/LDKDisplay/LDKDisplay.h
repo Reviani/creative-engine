@@ -46,35 +46,34 @@ public:
   void Init() override {};
 
   void Update() override {
-
-
     SwapBuffers();
-
 
     auto *screenPixels = (TInt16 *) mSDLScreen->pixels;
 
-    if (displayBitmap->Depth() > 8) {
-
+    if (displayBitmap->Depth() == 32) {
       for (TInt y = 0; y < SCREEN_HEIGHT; y++) {
         TUint32 *src = &displayBitmap->mPixels[y * displayBitmap->GetPitch()];
-
         for (TInt x = 0; x < SCREEN_WIDTH; x++) {
           TUint32 pixel = *src++;
-
           // Convert to 16bit color
           *screenPixels++ = (((pixel >> 19) & 0x1f) << 11) | // R
-                            (((pixel >> 10) & 0x3f) <<  5) | // G
-                            (((pixel >>  3) & 0x1f)      );  // B
+            (((pixel >> 10) & 0x3f) <<  5) | // G
+            (((pixel >>  3) & 0x1f)      );  // B
         }
       }
-
+    } else if (displayBitmap->Depth() == 16) {
+      TUint pitch = displayBitmap->GetPitch();
+      TUint16 *src = (TUint16 *)displayBitmap->mPixels;
+      for (TInt y = 0; y < SCREEN_HEIGHT; y++) {
+        memcpy(&screenPixels[y * mSDLScreen->pitch], &src[y * pitch], SCREEN_WIDTH*sizeof(TUint16));
+        // for (TInt x = 0; x < SCREEN_WIDTH; x++) {
+          // *screenPixels++ = *src++;
+        // }
+      }
     } else {
-
       TRGB *palette = displayBitmap->GetPalette();
-
       for (TInt y = 0; y < SCREEN_HEIGHT; y++) {
         TUint32 *src = &displayBitmap->mPixels[y * displayBitmap->GetPitch()];
-
         for (TInt x = 0; x < SCREEN_WIDTH; x++) {
           TUint32 pixel = *src++;
           TUint32 color = palette[pixel].rgb565();
@@ -83,14 +82,10 @@ public:
       }
     }
 
-
     if (SDL_MUSTLOCK(mSDLScreen)) SDL_UnlockSurface(mSDLScreen);
     SDL_Flip(mSDLScreen);
     if (SDL_MUSTLOCK(mSDLScreen)) SDL_LockSurface(mSDLScreen);
-
     NextFrameDelay();
-
-
   }
 
   ~LDKDisplay() {
