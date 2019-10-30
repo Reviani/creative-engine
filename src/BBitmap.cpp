@@ -1,4 +1,5 @@
 #include "BBitmap.h"
+#include <Bitmap/BBitmap8.h>
 #include <Display/Display.h>
 #include <cstring>
 #include "Panic.h"
@@ -15,10 +16,16 @@
 #define RLE
 
 BBitmap *BBitmap::CreateBBitmap(TUint aWidth, TUint aHeight, TUint aDepth, TUint16 aMemoryFlag) {
-  if (aDepth != 8) {
-    Panic("CreateBBitmap Unsupported depth %d", aDepth);
+  switch (aDepth) {
+    case 8:
+      return new BBitmap8(aWidth, aHeight, aMemoryFlag);
+    // case 16:
+      // return new BBitmap16(aWidth, aHeight, aMemoryFlag);
+    // case 32:
+      // return new BBitmap32(aWidth, aHeight, aMemoryFlag);
+    default:
+      Panic("CreateBBitmap Unsupported depth %d", aDepth);
   }
-  return new BBitmap(aWidth, aHeight, aDepth, aMemoryFlag);
 }
 
 BBitmap *BBitmap::CreateBBitmap(TAny *aRom, TUint16 aMemoryFlag) {

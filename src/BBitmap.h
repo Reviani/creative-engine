@@ -70,9 +70,9 @@ public:
 
   static BBitmap *CreateBBitmap(TAny *aRom, TUint16 aMemoryFlag = MEMF_SLOW);
 
-private:
+protected:
   /*
-   * Constructors are PRIVATE - use the factory methods!
+   * Constructors are PROTECTED - use the factory methods!
    */
   BBitmap(TUint aWidth, TUint aHeight, TUint aDepth, TUint16 aMemoryFlag = MEMF_SLOW);
 
