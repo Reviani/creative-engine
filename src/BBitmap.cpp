@@ -1,11 +1,14 @@
 #include "BBitmap.h"
-#include <Bitmap/BBitmap8.h>
 #include <Display/Display.h>
 #include <cstring>
 #include "Panic.h"
 #include "BFont.h"
 #include <strings.h>
 #include <cmath>
+
+#include <Bitmap/BBitmap8.h>
+#include <Bitmap/BBitmap16.h>
+#include <Bitmap/BBitmap32.h>
 
 #ifndef __XTENSA__
 
@@ -19,12 +22,13 @@ BBitmap *BBitmap::CreateBBitmap(TUint aWidth, TUint aHeight, TUint aDepth, TUint
   switch (aDepth) {
     case 8:
       return new BBitmap8(aWidth, aHeight, aMemoryFlag);
-    // case 16:
-      // return new BBitmap16(aWidth, aHeight, aMemoryFlag);
-    // case 32:
-      // return new BBitmap32(aWidth, aHeight, aMemoryFlag);
+    case 16:
+      return new BBitmap16(aWidth, aHeight, aMemoryFlag);
+    case 32:
+      return new BBitmap32(aWidth, aHeight, aMemoryFlag);
     default:
       Panic("CreateBBitmap Unsupported depth %d", aDepth);
+      return ENull;
   }
 }
 

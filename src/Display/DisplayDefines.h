@@ -11,7 +11,7 @@
 #ifdef __DINGUX__
 #define SCREEN_DEPTH 8
 #else
-#define SCREEN_DEPTH 8
+#define SCREEN_DEPTH 32
 #endif
 #endif
 
