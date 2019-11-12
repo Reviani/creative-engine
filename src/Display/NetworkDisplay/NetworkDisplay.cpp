@@ -21,7 +21,7 @@ static TBool hackInitialized = EFalse;
 #define __USE_SDL_VIDEO__ 1
 #undef __USE_SDL_VIDEO__
 
-NetworkDisplay::NetworkDisplay() : Display() {
+NetworkDisplay::NetworkDisplay() : DisplayBase() {
 
   // initialize any hardware
 #ifdef __USE_SDL_VIDEO__

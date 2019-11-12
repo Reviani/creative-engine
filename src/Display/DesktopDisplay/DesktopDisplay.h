@@ -4,12 +4,12 @@
 #define DESKTOPDISPLAY_H
 
 #include "DisplayDefines.h"
-#include "Display.h"
+#include "DisplayBase.h"
 
 #include "BBase.h"
 #include "BBitmap.h"
 
-class DesktopDisplay : public Display {
+class DesktopDisplay : public DisplayBase {
 
 public:
   DesktopDisplay();

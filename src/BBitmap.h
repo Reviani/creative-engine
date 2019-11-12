@@ -11,6 +11,8 @@ const TUint32 DRAW_ROTATE_LEFT = (1 << 3);
 
 class BResourceManager;
 
+class Display;
+
 class BViewPort;
 
 class BFont;
