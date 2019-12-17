@@ -109,7 +109,7 @@ void NetworkDisplay::Init() {
   char *portRoot = "989%i";
 #else
   char *portRoot = "989%i";
-  char *ipRoot = "10.0.1.20%i";
+  char *ipRoot = "10.1.10.20%i";
 
 #endif
 
