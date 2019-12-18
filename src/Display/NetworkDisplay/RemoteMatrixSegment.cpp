@@ -40,7 +40,7 @@ RemoteMatrixSegment::RemoteMatrixSegment(struct RemoteMatrixSegmentConfig config
 
   mInputBuffer = mSegmentBuffer1;
 
-  mDestinationIP = (char *)malloc(sizeof(config.destinationIP));
+  mDestinationIP = (char *)malloc(sizeof(config.destinationIP) * sizeof(char));
   strcpy(mDestinationIP, config.destinationIP);
 
   mDestinationPort = (char *)malloc(sizeof(config.destinationPort));
